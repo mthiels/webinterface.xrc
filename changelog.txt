@@ -1,0 +1,32 @@
+0.0.1:
+ - Initial version for DHARMA
+
+0.0.5:
+ - Initial version for Eden
+
+0.0.7:
+	Improvement to currently playing arrow in playist.  The arrow would only work in the first selected playlist.  Now 
+	arrow works for all playlists (Movie, Music, Video).
+
+0.0.8:
+	Added Library refresh button.
+	Added capability to move playlist entries within the playlist.
+
+0.0.9:
+	Changed Library refresh button to a menu button with three entries:
+	1) Refresh XBMControl library (do this after XBMC has refreshed it's libraries).
+	2) Refresh XBMC's Music Library.
+	3) Refresh XBMC's Video Library.
+
+    Fixed Shuffle button to work as XBMC does.
+	Added Repeat button that cylces between modes ('off', 'all', 'single').
+
+0.0.A
+	Added playlist load functionality.
+
+0.0.B
+    Added episode # and Playcount # to TV show's episode list.
+    Added GUI button back since remote works now.
+
+0.0.C
+	'Load Playlist' will see more than a single playist.

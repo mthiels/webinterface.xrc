@@ -1,0 +1,23 @@
+File C:\Documents and Settings\mthiels\Application Data\XBMC\addons\webinterface.xrc\js\Controls.bak:
+145                        "params": { "playerid": currentPlayer, "state": tempString },
+195                "params": { "playerid": currentPlayer },
+327            if (currentPlayer == undefined || currentPlayer == null) {
+327            if (currentPlayer == undefined || currentPlayer == null) {
+333                "params": { "playerid": currentPlayer, "value": input },
+File C:\Documents and Settings\mthiels\Application Data\XBMC\addons\webinterface.xrc\js\Controls.js:
+145                        "params": { "playerid": currentPlayer, "state": tempString },
+195                "params": { "playerid": currentPlayer },
+327            if (currentPlayer == undefined || currentPlayer == null) {
+327            if (currentPlayer == undefined || currentPlayer == null) {
+333                "params": { "playerid": currentPlayer, "value": input },
+File C:\Documents and Settings\mthiels\Application Data\XBMC\addons\webinterface.xrc\js\getCurrentlyPlaying.js:
+56             currentPlayer = temp;
+60                 "params": { "playerid": currentPlayer, "properties": ["title", "artist", "genre", "album", "duration", "file", "thumbnail"] },
+68                     "params": { "playerid": currentPlayer, "properties": ["title", "year", "thumbnail", "runtime", "duration", "season", "episode", "showtitle", "premiered"] },
+170                "params": { "playerid": currentPlayer, "properties": ["time", "totaltime", "position", "shuffled", "repeat", "percentage"] },
+File C:\Documents and Settings\mthiels\Application Data\XBMC\addons\webinterface.xrc\js\playlist.bak:
+323                    if ((currentPlaylist == "Music" && currentPlayer == 0) || (currentPlaylist != "Music" && currentPlayer == 1))
+323                    if ((currentPlaylist == "Music" && currentPlayer == 0) || (currentPlaylist != "Music" && currentPlayer == 1))
+File C:\Documents and Settings\mthiels\Application Data\XBMC\addons\webinterface.xrc\js\playlist.js:
+323                    if ((currentPlaylist == "Music" && currentPlayer == 0) || (currentPlaylist != "Music" && currentPlayer == 1))
+323                    if ((currentPlaylist == "Music" && currentPlayer == 0) || (currentPlaylist != "Music" && currentPlayer == 1))
