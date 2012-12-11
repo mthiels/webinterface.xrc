@@ -48,15 +48,6 @@ function InitializeWidgets() {
         }
     });
 
-    navButtonPrevious = Ext.create('Ext.Button', {
-        renderTo: 'buttonPrevious',
-        icon: 'images/navigator_previous.png',
-        scale: 'large',
-        handler: function() {
-            xbmcCmds('GoPrevious', xbmcCmdSuccess, buttonFailure);
-        }
-    });
-
     navButtonPlay = Ext.create('Ext.Button', {
         renderTo: 'buttonPlay',
         icon: 'images/navigator_play.png',
@@ -97,9 +88,51 @@ function InitializeWidgets() {
         icon: 'images/navigator_next.png',
         scale: 'large',
         handler: function() {
-            xbmcCmds('GoNext', xbmcCmdSuccess, buttonFailure);
+            buttonPrevNext('next');
         }
     });
+
+    navButtonPrevious = Ext.create('Ext.Button', {
+        renderTo: 'buttonPrevious',
+        icon: 'images/navigator_previous.png',
+        scale: 'large',
+        handler: function () {
+            buttonPrevNext('previous');
+        }
+    });
+
+    function buttonPrevNext(action) {
+        if (connectStatus != 'Connected')
+            return;
+
+        var obj = {
+            "jsonrpc": "2.0",
+            "method": "Player.GoTo",
+            "params": { "playerid": currentPlayer, "to": action },
+            "id": 1
+        };
+
+        tempStr = Ext.encode(obj);
+
+        Ext.Ajax.request({
+            url: '/jsonrpc',
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            params: tempStr,
+            success: prevNextSuccess,
+            failure: prevNextFailure,
+            timeout: interfaceTimeout
+        });
+    }
+
+    function prevNextFailure(t) {
+        alert('prevNextFailure failure t:' + t);
+    }
+
+    function prevNextSuccess(t) {
+        var responseArr = Ext.decode(t.responseText);
+        updatePlaylistTree();
+    }
 
     navBunavButtonGUI = Ext.create('Ext.Button', {
         renderTo: 'buttonGUI',
@@ -116,14 +149,44 @@ function InitializeWidgets() {
         scale: 'large',
         handler: function() {
             if (playerShuffle == true) {
-                xbmcCmds('UnShuffle', xbmcCmdSuccess, buttonFailure);
+                playerShuffle = false;
+                tempString = false;
             }
             else {
-                xbmcCmds('Shuffle', xbmcCmdSuccess, buttonFailure);
+                tempString = true;
+                playerShuffle = true;
             }
-            updatePlaylistTree();
+           
+            var obj = {
+                "jsonrpc": "2.0",
+                "method": "Player.SetShuffle",
+                "params": { "playerid": currentPlayer, "shuffle": tempString },
+                "id": 1
+            };
+
+            tempStr = Ext.encode(obj);
+
+            Ext.Ajax.request({
+                url: '/jsonrpc',
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                params: tempStr,
+                success: buttonShuffleSuccess,
+                failure: buttonShuffleFailure,
+                timeout: interfaceTimeout
+            });
+
         }
     });
+
+    function buttonShuffleFailure(t) {
+        alert('buttonShuffleFailure failure t:' + t);
+    }
+
+    function buttonShuffleSuccess(t) {
+        var responseArr = Ext.decode(t.responseText);
+        updatePlaylistTree();
+    }
 
     navButtonRepeat = Ext.create('Ext.Button', {
         renderTo: 'buttonRepeat',
@@ -141,8 +204,8 @@ function InitializeWidgets() {
 
             var obj = {
                 "jsonrpc": "2.0",
-                "method": "Player.Repeat",
-                "params": { "playerid": currentPlayer, "state": tempString },
+                "method": "Player.SetRepeat",
+                "params": { "playerid": currentPlayer, "repeat": tempString },
                 "id": 1
             };
 
@@ -153,13 +216,22 @@ function InitializeWidgets() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 params: tempStr,
-                success: xbmcCmdSuccess,
-                failure: buttonFailure,
+                success: buttonRepeatSuccess,
+                failure: buttonRepeatFailure,
                 timeout: interfaceTimeout
             });
         }
     });
     
+    function buttonRepeatFailure(t) {
+        alert('buttonRepeatFailure failure t:' + t);
+    }
+
+    function buttonRepeatSuccess(t) {
+        var responseArr = Ext.decode(t.responseText);
+        updatePlaylistTree();
+    }
+
     navButtonMute = Ext.create('Ext.Button', {
         renderTo: 'buttonMute',
         icon: 'images/navigator_sound.png',

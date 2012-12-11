@@ -25,11 +25,15 @@ var RemoteControlPanel = new Ext.FormPanel({
         },
         {
             xtype: 'button',
-            x: 04,
+            x: 00,
             y: 360,
-            width: 70,
-            height: 70,
+            width: 72,
+            height: 72,
+            padding: '0 0 0 0',
             scale: 'large',
+            handler: function() {
+                remoteCmds('Next', xbmcRemoteSuccess, remoteFailure);
+            },
             iconCls: 'remote-arrow-forward'
         }]
 })
@@ -45,6 +49,38 @@ var remoteControlWindow = new Ext.Window({
     items: [RemoteControlPanel],
     closeAction: 'hide'
 });
+
+function remoteFailure(t) {
+    alert('remoteFailure failure t:' + t);
+}
+
+function xbmcRemoteSuccess(t) {
+    var responseArr = Ext.decode(t.responseText);
+}
+
+function remoteCmds(command, callbackFunctionSuccess, callbackFunctionFailure) {
+    if (connectStatus != 'Connected')
+        return;
+
+    var obj = {
+        "jsonrpc": "2.0",
+        "method": "Input." + command,
+//        "params": { "playerid": currentPlayer },
+        "id": 1
+    };
+
+    tempStr = Ext.encode(obj);
+
+    Ext.Ajax.request({
+        url: '/jsonrpc',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        params: tempStr,
+        success: callbackFunctionSuccess,
+        failure: callbackFunctionFailure,
+        timeout: interfaceTimeout
+    });
+}
 
 
 //<area href="javascript:SendInput('Home')" shape="rect" coords="34, 4, 105, 75">

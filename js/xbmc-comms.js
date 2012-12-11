@@ -1,5 +1,5 @@
 ﻿
-var interfaceTimeout = 10000;
+var interfaceTimeout = 30000;
 var retrospect = null;
 var nodeId = 1;
 var currentPlaylist = 'Music';
