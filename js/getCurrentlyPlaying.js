@@ -1,4 +1,4 @@
-﻿var playlistSavedThumb = null;
+var playlistSavedThumb = null;
 var hostAddress = top.location.host;
 var currentPlayer = 0;
 
@@ -110,9 +110,8 @@ function getCurrentlyPlayingSuccess(t) {
         else
             currentlyPlayingString = "<b>" + responseArr.result.item.title + "<br></b>";
 
-        if (responseArr.result.item.type == 'song') {
-            currentlyPlayingString += responseArr.result.item.album + "</b><br>" +
-	            responseArr.result.item.artist;
+        if (responseArr.result.item.type == 'song' ||	 responseArr.result.item.type == 'unknown') {
+				currentlyPlayingString += responseArr.result.item.album + "</b><br>" + responseArr.result.item.artist;
         }
 
         if (responseArr.result.item.type == 'episode') {
@@ -129,7 +128,7 @@ function getCurrentlyPlayingSuccess(t) {
         }
 
         if (playlistSavedThumb != responseArr.result.item.thumbnail) {
-            if (responseArr.result.item.thumbnail == "")
+            if (responseArr.result.item.thumbnail == "" || responseArr.result.item.thumbnail == "image://DefaultAlbumCover.png/")
                 imgSrc = "images/defaultAlbumCover.png"
             else {
                 var tempString = encodeURIComponent(responseArr.result.item.thumbnail);
@@ -204,10 +203,11 @@ function getCurrentlyPlayingTimeSuccess(t) {
 
     if (responseArr.error == undefined) {
         var currentTime = parseInt(responseArr.result.time.seconds) + (parseInt(responseArr.result.time.minutes * 60)) + (parseInt(responseArr.result.time.hours) * 3600);
+		var totalTime = parseInt(responseArr.result.totaltime.seconds) + (parseInt(responseArr.result.totaltime.minutes * 60)) + (parseInt(responseArr.result.totaltime.hours) * 3600);
         var percentage = (parseInt(responseArr.result.percentage));
         if (!songPositionSelected) {
             songProgressBar.setValue(percentage);
-            myPlayingText.innerHTML = currentlyPlayingString + "<br>" + hms(currentTime);
+            myPlayingText.innerHTML = currentlyPlayingString + "<br>" + hms(currentTime) +' / '+ hms(totalTime);
         }
         playlistCurrentIndex = responseArr.result.position;
 
