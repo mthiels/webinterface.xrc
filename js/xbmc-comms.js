@@ -1,4 +1,4 @@
-﻿
+
 var interfaceTimeout = 30000;
 var retrospect = null;
 var nodeId = 1;
@@ -47,7 +47,7 @@ function failureIntroSpec(t) {
 
 // First set the response format for the API back to default.
 function connectToMediaServer() {
-    debugger;
+  //  debugger;
     InitializeWidgets();
     getShares("music");
     getShares("video");

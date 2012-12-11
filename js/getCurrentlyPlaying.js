@@ -212,7 +212,7 @@ function getCurrentlyPlayingTimeSuccess(t) {
         }
         playlistCurrentIndex = responseArr.result.position;
 
-        playerShuffle = responseArr.result.shuffled
+        playerShuffle = responseArr.result.shuffled;
         playerRepeat = responseArr.result.repeat;
 
         myShuffleStatus.innerHTML = (responseArr.result.shuffled) ? 'On' : 'Off' ;;
