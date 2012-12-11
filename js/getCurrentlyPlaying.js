@@ -111,7 +111,7 @@ function getCurrentlyPlayingSuccess(t) {
             currentlyPlayingString = "<b>" + responseArr.result.item.title + "<br></b>";
 
         if (responseArr.result.item.type == 'song' ||	 responseArr.result.item.type == 'unknown') {
-				currentlyPlayingString += responseArr.result.item.album + "</b><br>" + responseArr.result.item.artist;
+				currentlyPlayingString += (responseArr.result.item.artist) ? responseArr.result.item.album + "</b><br>" + responseArr.result.item.artist : '';
         }
 
         if (responseArr.result.item.type == 'episode') {
@@ -199,6 +199,7 @@ function getCurrentlyPlayingTimeSuccess(t) {
     var myPlayingText = document.getElementById('currentlyPlayingText');
     var myAlbumArt = document.getElementById('albumArt');
     var myConnectionStatus = document.getElementById('connectionStatus');
+    var myShuffleStatus = document.getElementById('shuffleStatus');
     var myRepeatStatus = document.getElementById('repeatStatus');
 
     if (responseArr.error == undefined) {
@@ -211,9 +212,10 @@ function getCurrentlyPlayingTimeSuccess(t) {
         }
         playlistCurrentIndex = responseArr.result.position;
 
-        playerShuffle = responseArr.result.shuffled;
+        playerShuffle = responseArr.result.shuffled
         playerRepeat = responseArr.result.repeat;
 
+        myShuffleStatus.innerHTML = (responseArr.result.shuffled) ? 'On' : 'Off' ;;
         myRepeatStatus.innerHTML = playerRepeat;
     }
 }
