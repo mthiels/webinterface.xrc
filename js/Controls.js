@@ -1,4 +1,4 @@
-﻿var songProgressBar = null;
+var songProgressBar = null;
 var songPositionSelected = false;
 var navButtonPrevious = null;
 var playerShuffle = false;
@@ -142,7 +142,6 @@ function InitializeWidgets() {
             remoteControlWindow.show();
         }
     });
-
     navButtonShuffle = Ext.create('Ext.Button', {
         renderTo: 'buttonShuffle',
         icon: 'images/navigator_shuffle.png',

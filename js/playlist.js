@@ -1,4 +1,4 @@
-﻿var playlistCurrentIndex = -1;
+var playlistCurrentIndex = -1;
 var playlistSavedIndex = -1;
 var currentPlaylistSelected = 0;
 
@@ -309,16 +309,17 @@ function updatePlaylistSuccess(t) {
     //playlistCurrentIndex = -1;
     for (var i = 0; i < tempCount; i++) {
         tempPlaying = "";
-        var tempName = responsePlaylist[i].label;
+		var tempName = responsePlaylist[i].title;
         if (tempName == "") {
             if (responsePlaylist[i].title != undefined)
-                tempName = responsePlaylist[i].title;
+                tempName = responsePlaylist[i].label;
         }
         if (tempName == "") {
             tempName = responsePlaylist[i].file.split('\\').pop().split('/').pop();
         }
         if (responsePlaylist[i].artist != "")
-            tempName = responsePlaylist[i].artist + ' - ' + tempName;
+            Artiststr =( responsePlaylist[i].artist) ?  responsePlaylist[i].artist+' - ' : '';
+			tempName = Artiststr + tempName;
         if (playlistCurrentIndex == i)
             if ((currentPlaylist == "Music" && currentPlayer == 0) || (currentPlaylist != "Music" && currentPlayer == 1))
             tempPlaying = "test";
@@ -594,6 +595,7 @@ function getMusicPlaylistsSuccess(t) {
     for (var i = 0; i < responseArr.result.limits.total; i++) {
         aContentPaths = responseArr.result.files[i].file;
         aContentNames = responseArr.result.files[i].label;
+		
         var obj = {
             name: responseArr.result.files[i].file,
             type: "playlist"
