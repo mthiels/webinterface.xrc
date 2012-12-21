@@ -45,7 +45,8 @@ var RemoteControlPanel = new Ext.FormPanel({
             padding: '0 0 0 0',
             scale: 'large',
             handler: function () {
-                remoteCmds('Info', xbmcRemoteSuccess, remoteFailure);
+                // remoteCmds('Info', xbmcRemoteSuccess, remoteFailure);
+                showPlaylist();
             },
             iconCls: 'remote-settings'
         },
@@ -334,18 +335,34 @@ function remoteVolumeAdjustSuccess(t) {
     getVolume();
 }
 
-//<area href="javascript:SendInput('Home')" shape="rect" coords="34, 4, 105, 75">
-//<area href="javascript:SendInput('Home')" shape="rect" coords="113, 4, 184, 75">
-//<area href="javascript:SendInput('Back')" shape="rect" coords="193, 4, 263, 75">
-//<area href="javascript:hideGuiControl()" shape="rect" coords="273, 4, 297, 28" >
-//<area href="javascript:SendInput('Up')" shape="rect" coords="113, 85, 184, 154">
-//<area href="javascript:SendInput('Left')" shape="rect" coords="33, 161, 105, 233">
-//<area href="javascript:SendInput('Select')" shape="rect" coords="113, 161, 184, 233">
-//<area href="javascript:SendInput('Right')" shape="rect" coords="192, 161, 263, 233">
-//<area href="javascript:SendInput('Down')" shape="rect" coords="113, 240, 184, 313">
-//<area href="javascript:adjustVolume(-10)" shape="rect" coords="2, 281, 71, 352">
-//<area href="javascript:adjustVolume(10)" shape="rect" coords="224, 281, 297, 352">
-//<area href="javascript:buttonPrevious()" shape="rect" coords="4, 360, 71, 430">
-//<area href="javascript:buttonStop()" shape="rect" coords="76, 360, 146, 430">
-//<area href="javascript:buttonPlay()" shape="rect" coords="151, 360, 222, 430">
-//<area href="javascript:buttonNext()" shape="rect" coords="225, 360, 296, 430">
+function showPlaylist() {
+    if (connectStatus != 'Connected')
+        return;
+
+    var tempString = "videoplaylist";
+    if (currentPlaylist == 'Music')
+        tempString = "musicplaylist";
+
+    var obj = {
+        "jsonrpc": "2.0",
+        "method": "GUI.ActivateWindow",
+        "params": {
+            //"window": "musicplaylisteditor"
+            "window": tempString
+        },
+        "id": 1
+    };
+
+    tempStr = Ext.encode(obj);
+
+    Ext.Ajax.request({
+        url: '/jsonrpc',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        params: tempStr,
+        success: xbmcRemoteSuccess,
+        failure: remoteFailure,
+        timeout: interfaceTimeout
+    });
+}
+
