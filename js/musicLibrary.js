@@ -62,29 +62,12 @@ var storeAlbum = Ext.create('Ext.data.Store', {
     }]
 });
 
-/*
-// create the data store
-var storeAlbum = new Ext.data.SimpleStore({
-    fields: [
-        { name: 'type' },
-        { name: 'index' },
-        { name: 'id' },
-        { name: 'album' }
-        ]
-});
-*/
-
 Ext.define('songInfo', {
     extend: 'Ext.data.Model',
     fields: [
-        //{ name: 'type', type: 'string' },
-        //{ name: 'genre', type: 'string' },
         { name: 'artist', type: 'string' },
         { name: 'album', type: 'string' },
-        //{ name: 'directory', type: 'string' },
-        //{ name: 'song', type: 'string' },
         { name: 'title', type: 'string' },
-        //{ name: 'duration', type: 'string' },
         { name: 'songid', type: 'int' }
     ]
 });
@@ -192,10 +175,8 @@ var gridSongs = Ext.create('Ext.grid.Panel', {
     },
     columns: [
                 { id: 'song', header: 'Title', sortable: true, dataIndex: 'title' },
-                //{ id: 'duration', header: 'Time', sortable: true, dataIndex: 'duration' },
                 { id: 'artist', header: 'Artist', sortable: true, dataIndex: 'artist' },
                 { id: 'album', header: 'Album', sortable: true, dataIndex: 'album' }
-                //{ id: 'genre', header: 'Genre', sortable: true, dataIndex: 'genre' }
     ],
     forceFit: true
 });
@@ -220,9 +201,17 @@ function InitializeMusicLib() {
         timeout: interfaceTimeout
     });
 
+    musicLibaryMessageBox.show({
+        msg: 'Loading Artists...',
+        wait: true,
+        waitConfig: { interval: 200 },
+        icon: 'ext-mb-download' //custom class in msg-box.html
+    });
+
 }
 
 function getMusicLibGenreFailure(t) {
+    musicLibaryMessageBox.hide();
     alert('getMusicLibGenreFailure t:' + t);
 }
 
@@ -240,7 +229,7 @@ function getMusicLibGenreSuccess(t) {
     for (i = 1; i <= responseCount; i++) {
 
         tempNum = response.result.genres[i - 1].genreid;
-        //tempNum = parseInt(tempStr);
+
         musicGenre[musicGenreCount] = new Array('genre', musicGenreCount, tempNum, response.result.genres[i - 1].label);
         musicGenreCount++;
     }
@@ -264,18 +253,10 @@ function getMusicLibGenreSuccess(t) {
         timeout: interfaceTimeout
     });
 
-    //gridGenre.addListener("rowclick", handleGenreRowClick);
-    //gridArtist.addListener("rowclick", handleArtistRowClick);
-    //gridAlbum.addListener("rowclick", handleAlbumRowClick);
-
-    //Ext.getCmp('mediaLibraryStatus').setText('Loading...');
-    //Ext.getCmp('mediaLibraryTotalGenre').setText('Genre: ' + musicLibraryGenreTotalCount);
-    //Ext.getCmp('mediaLibraryCurrent').setText('Current: ' + musicLibraryIndex);
-
-
 }
 
 function getMusicLibFailure(t) {
+    musicLibaryMessageBox.hide();
     alert('getMusicLibFailure t:' + t);
 }
 
@@ -302,6 +283,8 @@ function getMusicLibSuccess(t) {
     var response = Ext.decode(t.responseText);
     var responseCount = 0;
 
+    musicLibaryMessageBox.hide();
+
     if (response.result != null)
         responseCount = response.result.limits.total;
 
@@ -316,10 +299,6 @@ function getMusicLibSuccess(t) {
     }
 
     storeGenre.loadData(musicGenre, false);
-
-    //Ext.getCmp('mediaLibraryStatus').setText('Ready');
-    //Ext.getCmp('mediaLibraryCurrent').setText('Current: ' + musicLibraryIndex);
-
 }
 
 
@@ -352,6 +331,13 @@ function handleGenreRowClick(node, data, dropRec, dropPosition) {
         });
     }
 
+    musicLibaryMessageBox.show({
+        msg: 'Loading Artists...',
+        wait: true,
+        waitConfig: { interval: 200 },
+        icon: 'ext-mb-download' //custom class in msg-box.html
+    });
+
 }
 
 function entryInArtistList(entry) {
@@ -380,6 +366,9 @@ function fillstoreArtist(t) {
     var musicArtistCount = 0;
     musicArtist[musicArtistCount] = new Array('artist', musicArtistCount,-1, 'All');
     musicArtistCount++;
+
+    musicLibaryMessageBox.hide();
+
     if (response.result != null) {
         for (i = 0; i < response.result.limits.total; i++) {
 
@@ -438,6 +427,8 @@ function gatherSongs(t) {
     var temp = [];
     var index = 0;
 
+    musicLibaryMessageBox.hide();
+
     var response = Ext.decode(t.responseText);
 
     musicLibrary = [];
@@ -485,20 +476,6 @@ function fillstoreAlbum(t) {
 
     var paramsObj = {};
 
-/*
-    if (genreIDSelected == -1)
-        if (artistIDSelected == -1)
-        paramsObj = { "properties": ["genre", "artist", "album", "file", "title", "duration"] };
-    else
-        paramsObj = { "filter": { "artistid": artistIDSelected }, "properties": ["genre", "artist", "album", "file", "title", "duration"] };
-    else
-        if (artistIDSelected == -1)
-            paramsObj = { "filter": { "genreid": genreIDSelected }, "properties": ["genre", "artist", "album", "file", "title", "duration"] };
-    else
-        paramsObj = { "filter": { "genreid": genreIDSelected, "artistid": artistIDSelected },
-            "properties": ["genre", "artist", "album", "file", "title", "duration"]
-        };
-*/
     if (genreIDSelected == -1)
         if (artistIDSelected == -1)
             paramsObj = { "properties": ["genre", "artist", "album", "file", "title", "duration"] };
@@ -544,8 +521,6 @@ function handleArtistRowClick(node, data, dropRec, dropPosition) {
         paramsObj = { "filter": { "genreid": genreIDSelected} };
     else
         paramsObj = { "filter": { "artistid": artistIDSelected} };
-        //paramsObj = { "filter": { "genreid": genreIDSelected, "artistid": artistIDSelected} };
-
 
     var obj = {
         "jsonrpc": "2.0",
@@ -564,6 +539,15 @@ function handleArtistRowClick(node, data, dropRec, dropPosition) {
         failure: getMusicLibFailure,
         timeout: interfaceTimeout
     });
+
+    musicLibaryMessageBox.show({
+        msg: 'Loading Albums...',
+        wait: true,
+        waitConfig: { interval: 200 },
+        closable: true,
+        closeAction: 'hide',
+        icon: 'ext-mb-download' //custom class in msg-box.html
+    });
 }
 
 
@@ -575,4 +559,7 @@ function handleAlbumRowClick(node, data, dropRec, dropPosition) {
     fillstoreSongs(albumSelected);
 }
 
-
+var musicLibaryMessageBox = Ext.create('Ext.window.MessageBox', {
+    width: 300,
+    height: 100
+});

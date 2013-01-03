@@ -1,4 +1,3 @@
-Ext.require(['*']);
 Ext.onReady(function() {
 
     var viewport = Ext.create('Ext.Viewport', {
@@ -41,7 +40,7 @@ Ext.onReady(function() {
                     autoScroll: true,
                     layout: 'fit',
                		tbar: mediaLibraryStatusbar,
-                    items:
+               		items:
                     [{
                         xtype: 'grouptabpanel',
                         tabWidth: 100,
@@ -203,7 +202,6 @@ Ext.onReady(function() {
 
 var navButtonClearPlaylistVideo = Ext.create('Ext.Button', {
     text: 'Clear Playlist',
-    //scope   : this,
     handler: function() {
         buttonClearPlayList();
     }
@@ -211,7 +209,6 @@ var navButtonClearPlaylistVideo = Ext.create('Ext.Button', {
 
 var navButtonReloadPlaylistMusic = Ext.create('Ext.Button', {
     text: 'Refresh Playlist',
-    //scope   : this,
     handler: function() {
         updatePlaylistTree();
     }
@@ -286,8 +283,6 @@ var navButtonReloadLibraries = new Ext.Button({
 });
 
 var playlistStatusbar = Ext.create('Ext.toolbar.Toolbar', {
-    //renderTo: document.body,
-    //width: 400,
     items: [
         {
             id: 'playlistStatus',
@@ -315,23 +310,15 @@ var navButtonLoadPlaylistMusic = Ext.create('Ext.Button', {
 });
 
 var playlistControlbar = Ext.create('Ext.toolbar.Toolbar', {
-    //renderTo: document.body,
-    //width: 400,
     items: [
         navButtonLoadPlaylistMusic,
     ]
 });
 
 
-//var mediaLibraryStatusbar = new Ext.Toolbar({
-//    items: [mediaLibraryStatus, '->', navButtonReloadLibraries]
-//});
-
 var mediaLibraryStatusbar = Ext.create('Ext.toolbar.Toolbar', {
-    //renderTo: document.body,
-    //width: 400,
     items: [
-        {
+       {
             id: 'mediaLibraryStatus',
             text: 'Ready!' 
         },
@@ -339,3 +326,4 @@ var mediaLibraryStatusbar = Ext.create('Ext.toolbar.Toolbar', {
         navButtonReloadLibraries
     ]
 });
+

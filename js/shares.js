@@ -228,6 +228,13 @@ function getDirectoryPaths(url) {
         failure: getDirectoryFailure,
         timeout: interfaceTimeout
     });
+
+    sharesMessageBox.show({
+        msg: 'Loading Directory...',
+        wait: true,
+        waitConfig: { interval: 200 },
+        icon: 'ext-mb-download' //custom class in msg-box.html
+    });
 }
 
 function getDirectorySuccess(t) {
@@ -239,6 +246,8 @@ function getDirectorySuccess(t) {
     var branchRoot = null;
     var shareInfo = '';
     var storeTree = null;
+
+    sharesMessageBox.hide();
 
     var response = Ext.decode(t.responseText);
 
@@ -312,7 +321,12 @@ function getDirectorySuccess(t) {
 }
 
 function getDirectoryFailure(t) {
+    sharesMessageBox.hide();
     alert('getDirectoryFailure t:' + t);
 }
 
+var sharesMessageBox = Ext.create('Ext.window.MessageBox', {
+    width: 300,
+    height: 100
+});
 

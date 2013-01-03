@@ -75,7 +75,6 @@ var storeSeason = Ext.create('Ext.data.Store', {
 });
 
 var gridTVVideoSeason = Ext.create('Ext.grid.Panel', {
-    //renderTo: Ext.getBody(),
     store: storeSeason,
     viewConfig: {
         copy: true,
@@ -126,7 +125,6 @@ var storeEpisodes = Ext.create('Ext.data.Store', {
 
 
 var gridTVVideoEpisodes = Ext.create('Ext.grid.Panel', {
-    //renderTo: Ext.getBody(),
     store: storeEpisodes,
     viewConfig: {
         copy: true,
@@ -184,9 +182,17 @@ function InitializeTVShowLib() {
         failure: getTVShowFailure,
         timeout: interfaceTimeout
     });
+
+    tvvideoMessageBox.show({
+        msg: 'Loading TV Videos...',
+        wait: true,
+        waitConfig: { interval: 200 },
+        icon: 'ext-mb-download' //custom class in msg-box.html
+    });
 }
 
 function getTVShowFailure(t) {
+    tvvideoMessageBox.hide();
     alert('getVideoLibFailure t:' + t);
 }
 
@@ -194,6 +200,8 @@ function getTVShowFailure(t) {
 function getTVShowSuccess(t) {
     var response = Ext.decode(t.responseText);
     var videoTVLibraryCount = 0;
+
+    tvvideoMessageBox.hide();
 
     if (response.result != null)
         videoTVLibraryCount = response.result.limits.total;
@@ -315,3 +323,8 @@ function fillstoreEpisodes(t) {
     }
     storeEpisodes.loadData(videoTVEpisodes);
 }
+
+var tvvideoMessageBox = Ext.create('Ext.window.MessageBox', {
+    width: 300,
+    height: 100
+});

@@ -205,10 +205,18 @@ function getVideoLibGenreSuccess(t) {
         timeout: interfaceTimeout
     });
 
+    videoMessageBox.show({
+        msg: 'Loading Videos...',
+        wait: true,
+        waitConfig: { interval: 200 },
+        icon: 'ext-mb-download' //custom class in msg-box.html
+    });
+
 }
 
 
 function getVideoLibFailure(t) {
+    videoMessageBox.hide();
     alert('getVideoLibFailure t:' + t);
 }
 
@@ -216,6 +224,8 @@ function getVideoLibFailure(t) {
 function GetMovieLibSuccess(t) {
     var response = Ext.decode(t.responseText);
     var videoLibraryCount = 0;
+
+    videoMessageBox.hide();
 
     if (response.result != null)
         videoLibraryCount = response.result.limits.total;
@@ -265,5 +275,10 @@ function handleVideoGenreRowClick(node, data, dropRec, dropPosition) {
     }
     storeVideoLibrary.loadData(tempMovieList);
 }
+
+var videoMessageBox = Ext.create('Ext.window.MessageBox', {
+    width: 300,
+    height: 100
+});
 
 
