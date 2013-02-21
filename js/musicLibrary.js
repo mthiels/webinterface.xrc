@@ -359,7 +359,11 @@ function fillstoreArtist(t) {
 
     var response = Ext.decode(t.responseText);
 
-    storeArtist.removeAll();
+    if (musicStoresType == "Search") {
+        storeSearchArtist.removeAll();
+    } else {
+        storeArtist.removeAll();
+    }
     musicArtist = [];
 
     var previousEntry = "XXXXXXXX";
@@ -383,10 +387,16 @@ function fillstoreArtist(t) {
             previousEntry = response.result.artists[i].label;
         }
 
-        storeArtist.loadData(musicArtist);
+        if (musicStoresType == "Search") {
+            storeSearchArtist.loadData(musicArtist);
+            storeSearchAlbum.removeAll();
+            storeSearchSongs.removeAll();
+        } else {
+            storeArtist.loadData(musicArtist);
+            storeAlbum.removeAll();
+            storeSongs.removeAll();
+        }
     }
-    storeAlbum.removeAll();
-    storeSongs.removeAll();
 }
 
 
@@ -409,15 +419,19 @@ function fillstoreSongs(songSelection) {
     var tempMusicLibrary = [];
     var musicSongCount = 0;
 
-    storeSongs.removeAll();
-
     for (var i = 0; i < musicLibrary.length; i++) {
         if (musicLibrary[i][1] == songSelection || songSelection == "All") {
             tempMusicLibrary[musicSongCount] = musicLibrary[i];
             musicSongCount++;
         }
     }
-    storeSongs.loadData(tempMusicLibrary);
+    if (musicStoresType == "Search") {
+        storeSearchSongs.removeAll();
+        storeSearchSongs.loadData(tempMusicLibrary);
+    } else {
+        storeSongs.removeAll();
+        storeSongs.loadData(tempMusicLibrary);
+    }
 
 }
 
@@ -440,8 +454,12 @@ function gatherSongs(t) {
                                     response.result.songs[i].songid
         );
     }
-    if (genreIDSelected != -1 && artistIDSelected == -1)
-        storeSongs.loadData(musicLibrary);
+    if (genreIDSelected != -1 && artistIDSelected == -1) {
+            storeSongs.loadData(musicLibrary);
+    }
+    if (musicStoresType == "Search") {
+        storeSearchSongs.loadData(musicLibrary);
+    }
 }
 
 function fillstoreAlbum(t) {
@@ -472,7 +490,11 @@ function fillstoreAlbum(t) {
 
     }
 
-    storeAlbum.loadData(musicAlbum);
+    if (musicStoresType == "Search") {
+        storeSearchAlbum.loadData(musicAlbum);
+    } else {
+        storeAlbum.loadData(musicAlbum);
+    }
 
     var paramsObj = {};
 

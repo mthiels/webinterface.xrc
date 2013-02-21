@@ -98,13 +98,17 @@ var sharesVideoTree = Ext.create('Ext.tree.Panel', {
     ],
     renderTo: document.body,
     listeners: {
+        itemdblclick:function(node, rec, item, index, e){ 
+            if (rec.raw.type == "file") {
+                getFileInfo(rec);
+            }
+        },
         itemclick: function(view, rec, item, index, eventObj) {
             if (rec.raw.type != "sharesVideoRoot") {
                 getDirectoryInfo(rec);
             }
         }
-    }
-
+    } 
 });
 
 var sharesVideoRoot = sharesVideoTree.getRootNode();
@@ -213,7 +217,8 @@ function getDirectoryPaths(url) {
         "method": "Files.GetDirectory",
         "params": {
             "directory": url,
-            "sort": { "method": "label" }
+            "sort": { "method": "label" },
+            "properties": ["playcount"]
         },
         "id": 1
     };
@@ -330,3 +335,30 @@ var sharesMessageBox = Ext.create('Ext.window.MessageBox', {
     height: 100
 });
 
+
+function getFileInfo(branch) {
+    currentNodeSelected = branch.data.id;
+    var obj = {
+        "jsonrpc": "2.0",
+        "method": "Files.GetFileDetails",
+        "params": {
+            "file": branch.data.name
+        },
+        "id": 1
+    };
+
+    var tempStr = Ext.encode(obj);
+    Ext.Ajax.request({
+        url: '/jsonrpc',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        params: tempStr,
+        success: getFileSuccess,
+        failure: getDirectoryFailure,
+        timeout: interfaceTimeout
+    });
+}
+
+function getFileSuccess(t) {
+    var response = Ext.decode(t.responseText);
+}

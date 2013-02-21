@@ -188,7 +188,8 @@ function getVideoLibGenreSuccess(t) {
                 "title",
                 "genre",
                 "year",
-                "file"
+                "file",
+                "playcount"
             ]
         },
         "id": 1

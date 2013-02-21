@@ -112,7 +112,7 @@ function handlePlaylistDrop(data, dropPosition) {
             "id": 1
         };
     }
-    if (data.records[0].modelName == 'artistInfo') {
+    if (data.records[0].modelName == 'artistInfo' || data.records[0].modelName == 'artistSearchInfo') {
         obj = {
             "jsonrpc": "2.0",
             "method": "Playlist.Add",
@@ -125,7 +125,7 @@ function handlePlaylistDrop(data, dropPosition) {
             "id": 1
         };
     }
-    if (data.records[0].modelName == 'albumInfo') {
+    if (data.records[0].modelName == 'albumInfo' || data.records[0].modelName == 'albumSearchInfo') {
         obj = {
             "jsonrpc": "2.0",
             "method": "Playlist.Add",
@@ -138,7 +138,7 @@ function handlePlaylistDrop(data, dropPosition) {
             "id": 1
         };
     }
-    if (data.records[0].modelName == 'songInfo') {
+    if (data.records[0].modelName == 'songInfo' || data.records[0].modelName == 'songSearchInfo') {
         var obj = {
             "jsonrpc": "2.0",
             "method": "Playlist.Add",
@@ -300,6 +300,7 @@ function updatePlaylistSuccess(t) {
     var musicPlaylist = [];
     var tempPlaying = "";
     var tempCount = 0;
+    var Artiststr = "";
 
     var responseArr = Ext.decode(t.responseText);
 
@@ -317,7 +318,7 @@ function updatePlaylistSuccess(t) {
         if (tempName == "") {
             tempName = responsePlaylist[i].file.split('\\').pop().split('/').pop();
         }
-        if (responsePlaylist[i].artist != "")
+        if (responsePlaylist[i].artist != "" && responsePlaylist[i].artist != "[]")
             Artiststr =( responsePlaylist[i].artist) ?  responsePlaylist[i].artist+' - ' : '';
 			tempName = Artiststr + tempName;
         if (playlistCurrentIndex == i)
@@ -565,6 +566,7 @@ function useSelectedPlaylist() {
 function getPlaylists(type) {
     var successFunction = (type == 'music') ? getMusicPlaylistsSuccess : getVideoPlaylistsSuccess;
 
+ 
     var obj = {
         "jsonrpc": "2.0",
         "method": "Files.GetDirectory",

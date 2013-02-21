@@ -43,12 +43,15 @@ Ext.onReady(function() {
                		items:
                     [{
                         xtype: 'grouptabpanel',
-                        tabWidth: 100,
+                        tabWidth: 50,
                         activeGroup: 0,
                         margins: '0 0 0 0',
                         listeners: {
                             'beforegroupchange': function( grouptabPanelTemp, newGroup, oldGroup, comp, tab) {
                                 setPlaylistType(newGroup.initialConfig.title);
+                            },
+                            'beforetabchange': function (grouptabPanelTemp, newGroup, oldGroup, comp, tab) {
+                                setStoresType(newGroup.initialConfig.title);
                             },
                             scope: this
                         },
@@ -102,13 +105,64 @@ Ext.onReady(function() {
                                                 region: 'south',
                                                 split: true,
                                                 autoScroll: true,
-                                                height: 150,
+                                                height: 300,
                                                 //title: 'Media List',
                                                 layout: 'fit',
                                                 collapsible: true,
                                                 items: gridSongs
                                             }]
-                                        }]
+    			                        }, {
+    			                            title: 'Search',
+    			                            iconCls: 'icon-information',
+    			                            layout: 'border',
+    			                            frame: 'true',
+    			                            split: 'true',
+    			                            items: [{
+    			                                region: 'west',
+    			                                width: '33%',
+    			                                //layout: 'fit',
+    			                                split: true,
+    			                                margins: '0 0 0 0',
+    			                                items: [{  
+    			                                    xtype: 'textfield',
+    			                                    fieldLabel: 'Artist',
+    			                                    id: 'artistname',
+    			                                }, {
+                                                    xtype: 'textfield',
+    			                                    fieldLabel: 'Album',
+    			                                    id: 'albumname'
+    			                                }, {
+    			                                    xtype: 'textfield',
+    			                                    fieldLabel: 'Song',
+    			                                    id: 'songname'
+    			                                },
+    			                                navButtonSearch]
+    			                            },
+                                            {
+                                                region: 'center',
+                                                layout: 'fit',
+                                                split: true,
+                                                margins: '0 0 0 0',
+                                                items: gridSearchArtist
+                                            },
+                                            {
+                                                region: 'east',
+                                                width: '33%',
+                                                layout: 'fit',
+                                                split: true,
+                                                margins: '0 0 0 0',
+                                                items: gridSearchAlbum
+                                            }, {
+                                                region: 'south',
+                                                split: true,
+                                                autoScroll: true,
+                                                height: 300,
+                                                //title: 'Media List',
+                                                layout: 'fit',
+                                                collapsible: true,
+                                                items: gridSearchSongs
+                                            }]
+    			                        }]
                                 }, {
                                 title: 'Video',
                                 items: [{
@@ -198,6 +252,13 @@ Ext.onReady(function() {
     GetIntroRetroSpec();
 });
 
+
+var navButtonSearch = Ext.create('Ext.Button', {
+    text: 'Search',
+    handler: function () {
+        buttonSearchMusicLibrary();
+    }
+});
 
 
 var navButtonClearPlaylistVideo = Ext.create('Ext.Button', {
