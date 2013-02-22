@@ -7,8 +7,8 @@ var videoLibrary = [];
 Ext.define('genreVideoInfo', {
     extend: 'Ext.data.Model',
     fields: [
-        { name: 'type', type: 'string' },
-        { name: 'index', type: 'string' },
+//        { name: 'type', type: 'string' },
+//        { name: 'index', type: 'string' },
         { name: 'id', type: 'int' },
         { name: 'genre', type: 'string' }
     ]
@@ -54,13 +54,13 @@ var gridVideoGenre = Ext.create('Ext.grid.Panel', {
 Ext.define('videoLibraryInfo', {
     extend: 'Ext.data.Model',
     fields: [
-        { name: 'index' },
+//        { name: 'index' },
         { name: 'id' },
         { name: 'title' },
         { name: 'year' },
         { name: 'genre' },
         { name: 'file' },
-        { name: 'type' }
+//        { name: 'type' }
     ]
 });
 
@@ -72,22 +72,6 @@ var storeVideoLibrary = Ext.create('Ext.data.Store', {
         direction: 'ASC'
     }]
 });
-
-/*
-var gridVideo = new Ext.grid.GridPanel({
-    store: storeVideoLibrary,
-    columns: [
-                { header: 'Title', id: 'title', sortable: true, dataIndex: 'title' },
-                { header: 'Year', id: 'year', sortable: true, dataIndex: 'year' },
-                gridVideoAction
-            ],
-    plugins: [gridVideoAction],
-    autoExpandColumn: 'title',
-    enableDrag: true,
-    ddGroup: 'mygroup',
-    fitHeight: true
-});
-*/
 
 var gridVideo = Ext.create('Ext.grid.Panel', {
     //renderTo: Ext.getBody(),
@@ -128,7 +112,7 @@ var gridVideo = Ext.create('Ext.grid.Panel', {
             items: [{
                 icon: 'images/information.png',  // Use a URL in the icon config
                 //iconCls: 'icon-remove',
-                tooltip: 'Remove Song',
+                tooltip: 'Movie Info',
                 handler: function(grid, rowIndex, colIndex) {
                     showMovieInfo(storeVideoLibrary.getAt(rowIndex));
                 }
@@ -170,14 +154,14 @@ function getVideoLibGenreSuccess(t) {
         responseCount = response.result.limits.total;
 
     videoGenreCount = 0;
-    videoGenre[videoGenreCount] = new Array('genre', videoGenreCount, -1, 'All');
+    videoGenre[videoGenreCount] = new Array(-1, 'All');
     videoGenreCount++;
 
     for (i = 1; i <= responseCount; i++) {
 
-        tempNum = response.result.genres[i - 1].genreid;
+        //tempNum = response.result.genres[i - 1].genreid;
         //tempNum = parseInt(tempStr);
-        videoGenre[videoGenreCount] = new Array('genre', videoGenreCount, tempNum, response.result.genres[i - 1].label);
+        videoGenre[videoGenreCount] = new Array(response.result.genres[i - 1].genreid, response.result.genres[i - 1].label);
         videoGenreCount++;
     }
 
@@ -233,13 +217,12 @@ function GetMovieLibSuccess(t) {
 
     for (i = 0; i < videoLibraryCount; i++) {
 
-        videoLibrary[i] = new Array(i,
-                                    response.result.movies[i].movieid,      // idMovie
+        videoLibrary[i] = new Array(response.result.movies[i].movieid,      // idMovie
                                     response.result.movies[i].title,        // title
                                     response.result.movies[i].year,         // Year
                                     response.result.movies[i].genre,        // Genre
-                                    response.result.movies[i].file,         // strPath
-                                    "video"									// Type
+                                    response.result.movies[i].file         // strPath
+//                                    "video"									// Type
                                     );
     }
 
@@ -265,8 +248,8 @@ function handleVideoGenreRowClick(node, data, dropRec, dropPosition) {
 
         for (i = 0; i < videoLibrary.length; i++) {
 
-            for (j = 0; j < videoLibrary[i][4].length; j++) {
-                if (videoLibrary[i][4][j] == genreSelected) {
+            for (j = 0; j < videoLibrary[i][3].length; j++) {
+                if (videoLibrary[i][3][j] == genreSelected) {
                     tempMovieList[tempMovieCount] = videoLibrary[i];
                     tempMovieCount++;
                 }

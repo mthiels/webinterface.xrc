@@ -193,7 +193,7 @@ function InitializeTVShowLib() {
 
 function getTVShowFailure(t) {
     tvvideoMessageBox.hide();
-    alert('getVideoLibFailure t:' + t);
+    alert('getTVVideoLibFailure t:' + t);
 }
 
 

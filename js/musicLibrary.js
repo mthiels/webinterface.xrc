@@ -1,13 +1,9 @@
 ﻿var musicGenre = [];
 var musicGenreCount = 0;
-var musicArtistAll = [];
-var musicArtistAllCount = 0;
 
 Ext.define('genreInfo', {
     extend: 'Ext.data.Model',
     fields: [
-        { name: 'type', type: 'string' },
-        { name: 'index', type: 'string' },
         { name: 'id', type: 'int' },
         { name: 'genre', type: 'string' }
     ]
@@ -26,8 +22,6 @@ var storeGenre = Ext.create('Ext.data.Store', {
 Ext.define('artistInfo', {
     extend: 'Ext.data.Model',
     fields: [
-        { name: 'type', type: 'string' },
-        { name: 'index', type: 'string' },
         { name: 'id', type: 'int' },
         { name: 'artist', type: 'string' }
     ]
@@ -46,8 +40,6 @@ var storeArtist = Ext.create('Ext.data.Store', {
 Ext.define('albumInfo', {
     extend: 'Ext.data.Model',
     fields: [
-        { name: 'type', type: 'string' },
-        { name: 'index', type: 'string' },
         { name: 'id', type: 'int' },
         { name: 'album', type: 'string' }
     ]
@@ -184,6 +176,13 @@ var gridSongs = Ext.create('Ext.grid.Panel', {
 /********************* Initialize Music Lists **********************/
 
 function InitializeMusicLib() {
+    musicLibaryMessageBox.show({
+        msg: 'Loading Genres...',
+        wait: true,
+        waitConfig: { interval: 200 },
+        icon: 'ext-mb-download' //custom class in msg-box.html
+    });
+
     var obj = {
         "jsonrpc": "2.0",
         "method": "AudioLibrary.GetGenres",
@@ -201,12 +200,6 @@ function InitializeMusicLib() {
         timeout: interfaceTimeout
     });
 
-    musicLibaryMessageBox.show({
-        msg: 'Loading Artists...',
-        wait: true,
-        waitConfig: { interval: 200 },
-        icon: 'ext-mb-download' //custom class in msg-box.html
-    });
 
 }
 
@@ -219,39 +212,24 @@ function getMusicLibGenreSuccess(t) {
     var response = Ext.decode(t.responseText);
     var responseCount = 0;
 
+    musicLibaryMessageBox.hide();
+
     if (response.result != null)
         responseCount = response.result.limits.total;
 
     musicGenreCount = 0;
-    musicGenre[musicGenreCount] = new Array('genre', musicGenreCount, -1, 'All');
+    musicGenre[musicGenreCount] = new Array(-1, 'All');
     musicGenreCount++;
 
     for (i = 1; i <= responseCount; i++) {
 
-        tempNum = response.result.genres[i - 1].genreid;
-
-        musicGenre[musicGenreCount] = new Array('genre', musicGenreCount, tempNum, response.result.genres[i - 1].label);
+        musicGenre[musicGenreCount] = new Array(response.result.genres[i - 1].genreid, response.result.genres[i - 1].label);
         musicGenreCount++;
     }
 
     musicLibraryGenreTotalCount = musicGenreCount;
 
-    var obj = {
-        "jsonrpc": "2.0",
-        "method": "AudioLibrary.GetArtists",
-        "id": 1
-    };
-
-    tempStr = Ext.encode(obj);
-    Ext.Ajax.request({
-        url: '/jsonrpc',
-        method: 'POST',
-        params: tempStr,
-        headers: { 'Content-Type': 'application/json' },
-        success: getMusicLibSuccess,
-        failure: getMusicLibFailure,
-        timeout: interfaceTimeout
-    });
+    storeGenre.loadData(musicGenre, false);
 
 }
 
@@ -260,64 +238,109 @@ function getMusicLibFailure(t) {
     alert('getMusicLibFailure t:' + t);
 }
 
-function entryInList(entry, list) {
-    var i = 0;
-    var found = false;
-
-    while (!found && i < list.length) {
-        if (list[i][2] == entry)
-            return true;
-        else
-            i++;
-    }
-
-    return false;
-}
-
-function getMusicLibSuccess(t) {
-    var i = 0;
-    var index = 0;
-    var tempIndexNumber = 0;
-    var tempIndexCount = 0;
-
-    var response = Ext.decode(t.responseText);
-    var responseCount = 0;
-
-    musicLibaryMessageBox.hide();
-
-    if (response.result != null)
-        responseCount = response.result.limits.total;
-
-    musicArtistAllCount = 0;
-    musicArtistAll[musicArtistAllCount] = new Array('artist', musicArtistAllCount, -1, 'All');
-    musicArtistAllCount++;
-
-    for (i = 0; i < responseCount; i++) {
-
-        musicArtistAll[musicArtistAllCount] = new Array('artist', musicArtistAllCount, response.result.artists[i].artistid, response.result.artists[i].label);
-        musicArtistAllCount++;
-    }
-
-    storeGenre.loadData(musicGenre, false);
-}
-
-
-
 function handleGenreRowClick(node, data, dropRec, dropPosition) {
 
     genreSelected = data.data.genre; //OK, we have our record
     genreIDSelected = data.data.id;
 
-    if (genreSelected == 'All') {
-        storeArtist.loadData(musicArtistAll);
-    } else {
+    musicLibaryMessageBox.show({
+        msg: 'Loading Artists...',
+        wait: true,
+        waitConfig: { interval: 200 },
+        icon: 'ext-mb-download' //custom class in msg-box.html
+    });
 
+    if (musicStoresType == "Search") {
+        storeSearchArtist.removeAll();
+    } else {
+        storeArtist.removeAll();
+    }
+
+    if (genreSelected == 'All') {
         var obj = {
             "jsonrpc": "2.0",
             "method": "AudioLibrary.GetArtists",
-            "params": { "filter":{"genreid": genreIDSelected} },
+            "params": { "limits": { "end": entryMaxAmmount, "start": 0 } },
             "id": 1
         };
+    } else {
+        var obj = {
+            "jsonrpc": "2.0",
+            "method": "AudioLibrary.GetArtists",
+            "params": { "filter": { "genreid": genreIDSelected }, "limits": { "end": entryMaxAmmount, "start": 0 } },
+            "id": 1
+        };
+
+    }
+
+    tempStr = Ext.encode(obj);
+    Ext.Ajax.request({
+        url: '/jsonrpc',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        params: tempStr,
+        success: fillstoreArtist,
+        failure: getMusicLibFailure,
+        timeout: interfaceTimeout
+    });
+
+}
+
+function fillstoreArtist(t) {
+    var i = 0;
+
+    var response = Ext.decode(t.responseText);
+
+    musicArtist = [];
+
+    var musicArtistCount = response.result.limits.end - response.result.limits.start;
+   
+    if (response.result != null) {
+        for (i = 0; i < musicArtistCount; i++) {
+
+             musicArtist[i] = new Array(response.result.artists[i].artistid, response.result.artists[i].label);
+        }
+
+        if (musicStoresType == "Search") {
+            storeSearchArtist.add(musicArtist);
+        } else {
+            storeArtist.add(musicArtist);
+        }
+    }
+
+    if (response.result.limits.end >= response.result.limits.total) {
+        musicLibaryMessageBox.hide();
+
+        if (musicStoresType == "Search") {
+            storeSearchAlbum.removeAll();
+            storeSearchSongs.removeAll();
+        } else {
+            storeAlbum.removeAll();
+            storeSongs.removeAll();
+        }
+    } else {
+        var tempNum = response.result.limits.total - response.result.limits.end;
+        if (tempNum > entryMaxAmmount)
+            tempNum = entryMaxAmmount;
+        var tempStart = response.result.limits.end;
+        var tempEnd = response.result.limits.end + tempNum;
+
+        if (genreIDSelected == -1) {
+            var obj = {
+                "jsonrpc": "2.0",
+                "method": "AudioLibrary.GetArtists",
+                "params": { "limits": { "end": tempEnd, "start": tempStart } },
+                "id": 1
+            };
+        } else {
+            var obj = {
+                "jsonrpc": "2.0",
+                "method": "AudioLibrary.GetArtists",
+                "params": { "filter": { "genreid": genreIDSelected }, "limits": { "end": tempEnd, "start": tempStart } },
+                "id": 1
+            };
+
+        }
 
         tempStr = Ext.encode(obj);
         Ext.Ajax.request({
@@ -329,73 +352,6 @@ function handleGenreRowClick(node, data, dropRec, dropPosition) {
             failure: getMusicLibFailure,
             timeout: interfaceTimeout
         });
-    }
-
-    musicLibaryMessageBox.show({
-        msg: 'Loading Artists...',
-        wait: true,
-        waitConfig: { interval: 200 },
-        icon: 'ext-mb-download' //custom class in msg-box.html
-    });
-
-}
-
-function entryInArtistList(entry) {
-    var i = 0;
-    var found = false;
-
-    while (!found && i < musicArtist.length) {
-        if (musicArtist[i][2] == entry)
-            return true;
-        else
-            i++;
-    }
-
-    return false;
-}
-
-function fillstoreArtist(t) {
-    var i = 0;
-
-    var response = Ext.decode(t.responseText);
-
-    if (musicStoresType == "Search") {
-        storeSearchArtist.removeAll();
-    } else {
-        storeArtist.removeAll();
-    }
-    musicArtist = [];
-
-    var previousEntry = "XXXXXXXX";
-    var musicArtistCount = 0;
-    musicArtist[musicArtistCount] = new Array('artist', musicArtistCount,-1, 'All');
-    musicArtistCount++;
-
-    musicLibaryMessageBox.hide();
-
-    if (response.result != null) {
-        for (i = 0; i < response.result.limits.total; i++) {
-
-            if (response.result.artists[i].label != previousEntry) {
-                // Check to see if entry is already in the genre list.
-                if (!entryInArtistList(response.result.artists[i].label) && response.result.artists[i].label != "") {
-                    musicArtist[musicArtistCount] = new Array('artist', musicArtistCount, response.result.artists[i].artistid, response.result.artists[i].label);
-                    musicArtistCount++;
-                }
-            }
-
-            previousEntry = response.result.artists[i].label;
-        }
-
-        if (musicStoresType == "Search") {
-            storeSearchArtist.loadData(musicArtist);
-            storeSearchAlbum.removeAll();
-            storeSearchSongs.removeAll();
-        } else {
-            storeArtist.loadData(musicArtist);
-            storeAlbum.removeAll();
-            storeSongs.removeAll();
-        }
     }
 }
 
@@ -458,7 +414,8 @@ function gatherSongs(t) {
             storeSongs.loadData(musicLibrary);
     }
     if (musicStoresType == "Search") {
-        storeSearchSongs.loadData(musicLibrary);
+        //storeSearchSongs.loadData(musicLibrary);
+        storeSearchSongs.removeAll();
     }
 }
 
@@ -475,14 +432,12 @@ function fillstoreAlbum(t) {
     var previousAlbumEntry = "XXXXXXXX";
     var musicAlbumCount = 0;
 
-    musicAlbum[musicAlbumCount] = new Array('album', musicAlbumCount, -1, 'All');
-    musicAlbumCount++;
     for (i = 0; i < response.result.limits.total; i++) {
 
         if (response.result.albums[i].label != previousAlbumEntry) {
             // Check to see if entry is already in the genre list.
             if (!entryInAlbumList(response.result.albums[i].label)) {
-                musicAlbum[musicAlbumCount] = new Array('album', musicAlbumCount, response.result.albums[i].albumid, response.result.albums[i].label);
+                musicAlbum[musicAlbumCount] = new Array(response.result.albums[i].albumid, response.result.albums[i].label);
                 musicAlbumCount++;
             }
         }

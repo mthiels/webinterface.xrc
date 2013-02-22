@@ -7,8 +7,6 @@ var musicSearchArtistAllCount = 0;
 Ext.define('artistSearchInfo', {
     extend: 'Ext.data.Model',
     fields: [
-        { name: 'type', type: 'string' },
-        { name: 'index', type: 'string' },
         { name: 'id', type: 'int' },
         { name: 'artist', type: 'string' }
     ]
@@ -27,8 +25,6 @@ var storeSearchArtist = Ext.create('Ext.data.Store', {
 Ext.define('albumSearchInfo', {
     extend: 'Ext.data.Model',
     fields: [
-        { name: 'type', type: 'string' },
-        { name: 'index', type: 'string' },
         { name: 'id', type: 'int' },
         { name: 'album', type: 'string' }
     ]
@@ -228,9 +224,7 @@ function buttonSearchAlbumSuccess(t) {
 
     for (i = 0; i < response.result.limits.total; i++) {
 
-        albumSearchLibrary[i] = new Array('album',
-                                                i,
-                                                response.result.albums[i].albumid,
+        albumSearchLibrary[i] = new Array(      response.result.albums[i].albumid,
                                                 response.result.albums[i].label);
 
     }
@@ -251,9 +245,7 @@ function buttonSearchArtistSuccess(t) {
 
     for (i = 0; i < response.result.limits.total; i++) {
 
-        artistSearchLibrary[i] = new Array('artist',
-                                                i,
-                                                response.result.artists[i].artistid,
+        artistSearchLibrary[i] = new Array(     response.result.artists[i].artistid,
                                                 response.result.artists[i].label);
 
     }
