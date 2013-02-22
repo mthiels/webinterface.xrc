@@ -31,7 +31,7 @@ Ext.onReady(function() {
                 {
                     region: 'north',
                     split: true,
-                    title: 'XBMControl Web v1.0.0',
+                    title: 'XBMControl Web v1.1.0',
                     height: 170,
                     contentEl: 'tester'
                 }, { 

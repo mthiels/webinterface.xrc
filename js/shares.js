@@ -135,11 +135,9 @@ function getShares(type) {
         obj.params.media = "video";
     }
 
-    var inputUrl = '/jsonrpc';
     var tempStr = Ext.encode(obj);
-
     Ext.Ajax.request({
-        url: inputUrl,
+        url: '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
