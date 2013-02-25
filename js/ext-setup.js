@@ -127,14 +127,38 @@ Ext.onReady(function() {
     			                                    xtype: 'textfield',
     			                                    fieldLabel: 'Artist',
     			                                    id: 'artistname',
+    			                                    listeners: {
+    			                                        scope: this,
+    			                                        specialkey: function (f, e) {
+    			                                            if (e.getKey() == e.ENTER) {
+    			                                                buttonSearchMusicLibrary();
+    			                                            }
+    			                                        }
+    			                                    }
     			                                }, {
                                                     xtype: 'textfield',
     			                                    fieldLabel: 'Album',
-    			                                    id: 'albumname'
+    			                                    id: 'albumname',
+    			                                    listeners: {
+    			                                        scope: this,
+    			                                        specialkey: function (f, e) {
+    			                                            if (e.getKey() == e.ENTER) {
+    			                                                buttonSearchMusicLibrary();
+    			                                            }
+    			                                        }
+    			                                    }
     			                                }, {
     			                                    xtype: 'textfield',
     			                                    fieldLabel: 'Song',
-    			                                    id: 'songname'
+    			                                    id: 'songname',
+    			                                    listeners: {
+    			                                        scope: this,
+    			                                        specialkey: function (f, e) {
+    			                                            if (e.getKey() == e.ENTER) {
+    			                                                buttonSearchMusicLibrary();
+    			                                            }
+    			                                        }
+    			                                    }
     			                                },
     			                                navButtonSearch]
     			                            },
