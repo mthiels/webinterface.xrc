@@ -65,7 +65,9 @@ var gridSearchArtist = Ext.create('Ext.grid.Panel', {
         plugins: {
             ddGroup: 'mygroup',
             ptype: 'gridviewdragdrop',
-            enableDrag: true
+            enableDrag: true,
+            enableDrop: false,
+            dragText: '{0} Artist{1} selected'
         },
         listeners: {
             itemclick: function (node, data, dropRec, dropPosition) {
@@ -92,11 +94,13 @@ var gridSearchAlbum = Ext.create('Ext.grid.Panel', {
         plugins: {
             ddGroup: 'mygroup',
             ptype: 'gridviewdragdrop',
-            enableDrag: true
+            enableDrag: true,
+            enableDrop: false,
+            dragText: '{0} Album{1} selected'
         },
         listeners: {
             itemclick: function (node, data, dropRec, dropPosition) {
-                handleAlbumRowClick(node, data, dropRec, dropPosition);
+                handleSearchAlbumRowClick(node, data, dropRec, dropPosition);
             }
         }
     },
@@ -119,7 +123,9 @@ var gridSearchSongs = Ext.create('Ext.grid.Panel', {
         plugins: {
             ddGroup: 'mygroup',
             ptype: 'gridviewdragdrop',
-            enableDrag: true
+            enableDrag: true,
+            enableDrop: false,
+            dragText: '{0} Song{1} selected'
         }
     },
     columns: [
@@ -254,5 +260,41 @@ function buttonSearchArtistSuccess(t) {
 
 }
 
+function handleSearchAlbumRowClick(node, data, dropRec, dropPosition) {
+
+    albumSelected = data.data.album; //OK, we have our record
+    albumIDSelected = data.data.id;
+
+    var paramsObj = {};
+
+    paramsObj = { "filter": { "albumid": albumIDSelected }, "properties": ["genre", "artist", "album", "file", "title", "duration"] };
+
+    var obj = {
+        "jsonrpc": "2.0",
+        "method": "AudioLibrary.GetSongs",
+        "params": paramsObj,
+        "id": 1
+    };
+
+    tempStr = Ext.encode(obj);
+    Ext.Ajax.request({
+        url: '/jsonrpc',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        params: tempStr,
+        success: gatherSongs,
+        failure: getMusicLibFailure,
+        timeout: interfaceTimeout
+    });
+
+    musicLibaryMessageBox.show({
+        msg: 'Loading Album...',
+        wait: true,
+        waitConfig: { interval: 200 },
+        closable: true,
+        closeAction: 'hide',
+        icon: 'ext-mb-download' //custom class in msg-box.html
+    });
+}
 
 

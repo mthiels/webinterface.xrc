@@ -81,7 +81,8 @@ var gridGenre = Ext.create('Ext.grid.Panel', {
         plugins: {
             ddGroup: 'mygroup',
             ptype: 'gridviewdragdrop',
-            enableDrag: true
+            enableDrag: true,
+            enableDrop: false
         },
         listeners: {
             itemclick: function(node, data, dropRec, dropPosition) {
@@ -108,7 +109,9 @@ var gridArtist = Ext.create('Ext.grid.Panel', {
         plugins: {
             ddGroup: 'mygroup',
             ptype: 'gridviewdragdrop',
-            enableDrag: true
+            enableDrag: true,
+            enableDrop: false,
+            dragText: '{0} Artist{1} selected'
         },
         listeners: {
             itemclick: function(node, data, dropRec, dropPosition) {
@@ -135,7 +138,9 @@ var gridAlbum = Ext.create('Ext.grid.Panel', {
         plugins: {
             ddGroup: 'mygroup',
             ptype: 'gridviewdragdrop',
-            enableDrag: true
+            enableDrag: true,
+            enableDrop: false,
+            dragText: '{0} Album{1} selected'
         },
         listeners: {
             itemclick: function(node, data, dropRec, dropPosition) {
@@ -162,7 +167,9 @@ var gridSongs = Ext.create('Ext.grid.Panel', {
         plugins: {
             ddGroup: 'mygroup',
             ptype: 'gridviewdragdrop',
-            enableDrag: true
+            enableDrag: true,
+            enableDrop: false,
+            dragText: '{0} Song{1} selected'
         }
     },
     columns: [
@@ -414,8 +421,7 @@ function gatherSongs(t) {
             storeSongs.loadData(musicLibrary);
     }
     if (musicStoresType == "Search") {
-        //storeSearchSongs.loadData(musicLibrary);
-        storeSearchSongs.removeAll();
+        storeSearchSongs.loadData(musicLibrary);
     }
 }
 
