@@ -1,6 +1,6 @@
 
 var interfaceTimeout = 30000;
-var entryMaxAmmount = 1000;
+var entryMaxAmmount = 200;
 var retrospect = null;
 var nodeId = 1;
 var currentPlaylist = 'Music';
