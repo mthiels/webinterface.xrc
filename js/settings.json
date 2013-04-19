@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+		"ipAddress": "localhost",
+        "portAddress": "80",
+        "userCmd": "/?Air1"
+    },
+    {
+        "id": 2,
+		"ipAddress": "localhost",
+        "portAddress": "80",
+        "userCmd": "/?Pwr"
+    }
+]

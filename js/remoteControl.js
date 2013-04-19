@@ -45,8 +45,7 @@ var RemoteControlPanel = new Ext.FormPanel({
             padding: '0 0 0 0',
             scale: 'large',
             handler: function () {
-                // remoteCmds('Info', xbmcRemoteSuccess, remoteFailure);
-                showPlaylist();
+                remoteCmds('Info', xbmcRemoteSuccess, remoteFailure);
             },
             iconCls: 'remote-settings'
         },

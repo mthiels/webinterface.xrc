@@ -134,14 +134,23 @@ function InitializeWidgets() {
         updatePlaylistTree();
     }
 
-    navBunavButtonGUI = Ext.create('Ext.Button', {
+    navButtonGUI = Ext.create('Ext.Button', {
         renderTo: 'buttonGUI',
         icon: 'images/gui_control.png',
         scale: 'large',
-        handler: function() {
+        handler: function () {
             remoteControlWindow.show();
         }
     });
+    navButtonUser = Ext.create('Ext.Button', {
+        renderTo: 'buttonUser',
+        icon: 'images/userDefined.png',
+        scale: 'large',
+        handler: function () {
+            userDefinedWindow.show();
+        }
+    });
+
     navButtonShuffle = Ext.create('Ext.Button', {
         renderTo: 'buttonShuffle',
         icon: 'images/navigator_shuffle.png',

@@ -1,4 +1,5 @@
-﻿
+﻿var record = null;
+
 function showMovieInfo(record) {
     var obj = {
         "jsonrpc": "2.0",
@@ -17,10 +18,10 @@ function showMovieInfo(record) {
                 "director",
                 "rating",
                 "streamdetails",
-                "thumbnail",
                 "mpaa",
                 "votes",
                 "lastplayed",
+                "art",
                 "dateadded" ]
         },
         "id": record.data.id
@@ -61,6 +62,7 @@ function showMovieDetails(t) {
     Ext.getCmp('movieStudio').setValue(record.studio);
     Ext.getCmp('movieFilename').setValue(record.fileName);
     Ext.getCmp('movieDirector').setValue(record.director);
+    Ext.getCmp('cover').setValue(record.art.poster);
     Ext.getCmp('rating').autoEl.src = jpgrating(record.rating);
 
     if (record.streamdetails != null) {
@@ -113,7 +115,7 @@ function showMovieDetails(t) {
         tempPic.getEl().dom.src = "images/flags/" + audioChannels;
 
     var mycover = Ext.getCmp('coverart');
-    var tempString = encodeURIComponent(record.thumbnail);
+    var tempString = encodeURIComponent(record.art.poster);
     mycover.autoEl.src = "http://" + hostAddress + "/image/" + tempString;
     if (mycover.getEl() != undefined)
         mycover.getEl().dom.src = "http://" + hostAddress + "/image/" + tempString;
@@ -122,6 +124,40 @@ function showMovieDetails(t) {
     movieInfoWindow.show();
 }
 
+function saveMovieInfo() {
+
+//    xbmcJsonRPC('{"jsonrpc": "2.0", "method": "VideoLibrary.SetMovieDetails", "params": {"movieid": ' + idMedia + ', "playcount": 1}, "id": 1}');
+
+    var coverValue = Ext.getCmp('cover').getValue();
+    var obj = {
+        "jsonrpc": "2.0",
+        "method": "VideoLibrary.SetMovieDetails",
+        "params": {
+            "movieid": record.movieid,
+//        {"art":{"fanart":"image:/.jpg/","poster":"image:/.jpg/"}
+            "art": { "poster": coverValue },
+        },
+        "id": record.movieid
+    };
+
+    tempStr = Ext.encode(obj);
+    Ext.Ajax.request({
+        url: '/jsonrpc',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        params: tempStr,
+        success: setMovieSuccess,
+        failure: getMusicLibFailure,
+        timeout: interfaceTimeout
+    });
+
+    movieInfoWindow.hide();
+
+}
+
+function setMovieSuccess(t) {
+    var response = Ext.decode(t.responseText);
+}
 /***************************************************/
 
 var FlagsPanel = new Ext.Panel({
@@ -157,8 +193,11 @@ var MoviedetailPanel = new Ext.FormPanel({
     title: "<div align='center'>Movie details</div>",
     defaults: { hideLabels: true, border: false },
     buttons: [{
+        text: 'Save',
+        handler: function () { saveMovieInfo() }
+    }, {
         text: 'Exit',
-        handler: function() { movieInfoWindow.hide() }
+        handler: function () { movieInfoWindow.hide() }
     }],
     modal: true,
     items: [{
@@ -223,6 +262,10 @@ var MoviedetailPanel = new Ext.FormPanel({
                 fieldLabel: 'Studio',
                 name: 'studio',
                 id: 'movieStudio'
+            }, {
+                fieldLabel: 'Cover',
+                name: 'coverImage',
+                id: 'cover'
             }, {
                 fieldLabel: 'File name',
                 name: 'fileName',
@@ -358,4 +401,3 @@ function findAspect(vAspect) {
     else
         return "2.39";
 }
-

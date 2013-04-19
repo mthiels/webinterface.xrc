@@ -14,6 +14,7 @@ Ext.define('genreVideoInfo', {
     ]
 });
 
+
 var storeVideoGenre = Ext.create('Ext.data.Store', {
     model: 'genreVideoInfo',
     folderSort: true,
@@ -173,7 +174,9 @@ function getVideoLibGenreSuccess(t) {
                 "genre",
                 "year",
                 "file",
-                "playcount"
+                "playcount",
+                "fanart",
+                "thumbnail"
             ]
         },
         "id": 1

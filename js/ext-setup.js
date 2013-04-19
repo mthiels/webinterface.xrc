@@ -299,6 +299,21 @@ var navButtonReloadPlaylistMusic = Ext.create('Ext.Button', {
     }
 });
 
+var navButtonSetFullScreen = Ext.create('Ext.Button', {
+    text: 'FullScreen',
+    handler: function () {
+        buttonFullScreen();
+    }
+});
+
+var navButtonScreen = Ext.create('Ext.Button', {
+    text: 'Select Screen',
+    qtip: 'Choose screen',
+    menu: [ {text: 'Home', handler: function() {buttonScreen('home')}},
+	        {text: 'Weather', handler: function() {buttonScreen('weather')} },
+	        { text: 'Music', handler: function() {buttonScreen('music') } }]
+});
+
 function refreshXBMCMusicLibraries(t) {
     var obj = {
         "jsonrpc": "2.0",
@@ -403,12 +418,78 @@ var playlistControlbar = Ext.create('Ext.toolbar.Toolbar', {
 
 var mediaLibraryStatusbar = Ext.create('Ext.toolbar.Toolbar', {
     items: [
-       {
-            id: 'mediaLibraryStatus',
-            text: 'Ready!' 
-        },
+        navButtonSetFullScreen,
         '->',
+        navButtonScreen,
         navButtonReloadLibraries
     ]
 });
+
+/****************** buttonFullScreen **************************/
+
+function buttonFullScreen() {
+    var obj = {
+        "jsonrpc": "2.0",
+        "method": "GUI.SetFullscreen",
+        "params": {
+            "fullscreen": "toggle"
+        },
+        "id": 1
+    };
+
+    tempStr = Ext.encode(obj);
+
+    Ext.Ajax.request({
+        url: '/jsonrpc',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        params: tempStr,
+        success: buttonFullscreenSuccess,
+        failure: buttonFullscreenFailure,
+        timeout: interfaceTimeout
+    });
+}
+
+function buttonFullscreenFailure(t) {
+    alert('buttonClearPlayListFailure failure t:' + t);
+}
+
+function buttonFullscreenSuccess(t) {
+    var response = Ext.decode(t.responseText);
+}
+
+
+/****************** buttonScreenWeather **************************/
+
+function buttonScreen(inputScreen) {
+
+    var obj = {
+        "jsonrpc": "2.0",
+        "method": "GUI.ActivateWindow",
+        "params": {
+            "window": inputScreen
+        },
+        "id": 1
+    };
+
+    tempStr = Ext.encode(obj);
+
+    Ext.Ajax.request({
+        url: '/jsonrpc',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        params: tempStr,
+        success: buttonScreenSuccess,
+        failure: buttonScreenFailure,
+        timeout: interfaceTimeout
+    });
+}
+
+function buttonScreenFailure(t) {
+    alert('buttonScreenFailure failure t:' + t);
+}
+
+function buttonScreenSuccess(t) {
+    var response = Ext.decode(t.responseText);
+}
 

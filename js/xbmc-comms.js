@@ -6,6 +6,7 @@ var nodeId = 1;
 var currentPlaylist = 'Music';
 var currentNodeSelected = 0;
 
+
 /********************* Generic JSON function call *****************/
 function xbmcComm(method, successComm, failureComm) {
 
@@ -56,7 +57,10 @@ function connectToMediaServer() {
     updatePlaylistTree();
     InitializeMusicLib();
     InitializeMovieLib();
-    InitializeTVShowLib();     
+    InitializeTVShowLib();
+    getAddons();
     getVolume();
+    populateUserDefinedWindow();
 }
+
 
