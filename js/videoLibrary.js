@@ -137,7 +137,7 @@ function InitializeMovieLib() {
 
     tempStr = Ext.encode(obj);
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -184,7 +184,7 @@ function getVideoLibGenreSuccess(t) {
 
     tempStr = Ext.encode(obj);
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,

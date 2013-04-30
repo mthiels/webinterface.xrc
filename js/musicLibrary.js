@@ -198,7 +198,7 @@ function InitializeMusicLib() {
 
     tempStr = Ext.encode(obj);
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -282,7 +282,7 @@ function handleGenreRowClick(node, data, dropRec, dropPosition) {
 
     tempStr = Ext.encode(obj);
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -351,7 +351,7 @@ function fillstoreArtist(t) {
 
         tempStr = Ext.encode(obj);
         Ext.Ajax.request({
-            url: '/jsonrpc',
+            url: clientAddr + '/jsonrpc',
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             params: tempStr,
@@ -476,7 +476,7 @@ function fillstoreAlbum(t) {
 
     tempStr = Ext.encode(obj);
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -514,7 +514,7 @@ function handleArtistRowClick(node, data, dropRec, dropPosition) {
 
     tempStr = Ext.encode(obj);
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,

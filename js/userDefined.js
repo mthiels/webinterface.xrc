@@ -9,7 +9,7 @@ var userDefinedCmds = Ext.create('Ext.data.Store', {
     autoLoad: 'true',
     proxy: {
         type: 'ajax',
-        url: '/js/settings.json',
+        url: '/js/userDefinedSettings.json',
         reader: {
             type: 'json'
         }

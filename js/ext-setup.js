@@ -323,7 +323,7 @@ function refreshXBMCMusicLibraries(t) {
 
     tempStr = Ext.encode(obj);
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -350,7 +350,7 @@ function refreshXBMCVideoLibraries(t) {
 
     tempStr = Ext.encode(obj);
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         params: tempStr,
         headers: { 'Content-Type': 'application/json' },
@@ -417,6 +417,7 @@ var playlistControlbar = Ext.create('Ext.toolbar.Toolbar', {
 
 
 var mediaLibraryStatusbar = Ext.create('Ext.toolbar.Toolbar', {
+    id: 'statusBar',
     items: [
         navButtonSetFullScreen,
         '->',
@@ -440,7 +441,7 @@ function buttonFullScreen() {
     tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -475,7 +476,7 @@ function buttonScreen(inputScreen) {
     tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,

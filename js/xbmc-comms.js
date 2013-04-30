@@ -1,4 +1,4 @@
-
+var clientAddr = "";
 var interfaceTimeout = 30000;
 var entryMaxAmmount = 200;
 var retrospect = null;
@@ -20,7 +20,7 @@ function xbmcComm(method, successComm, failureComm) {
     var tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({
-        url: inputUrl,
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -61,6 +61,7 @@ function connectToMediaServer() {
     getAddons();
     getVolume();
     populateUserDefinedWindow();
+    populateClientMenu();
 }
 
 

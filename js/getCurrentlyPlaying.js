@@ -21,7 +21,7 @@ function GetCurrentlyPlaying() {
     tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -73,7 +73,7 @@ function GetCurrentlyPlaying_1(t) {
     tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -173,7 +173,7 @@ function getCurrentlyPlayingTime() {
     tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,

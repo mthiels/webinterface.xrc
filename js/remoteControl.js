@@ -242,7 +242,7 @@ function remoteCmds(command, callbackFunctionSuccess, callbackFunctionFailure) {
     tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -266,7 +266,7 @@ function remotePrevNext(action) {
     tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -316,7 +316,7 @@ function remoteVolumeAdjust(action) {
     tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -355,7 +355,7 @@ function showPlaylist() {
     tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,

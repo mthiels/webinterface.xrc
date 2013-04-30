@@ -193,7 +193,7 @@ function handlePlaylistDrop(data, dropPosition) {
 
     tempStr = Ext.encode(obj);
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -247,7 +247,7 @@ function addDirectoryContent(folderPath, mask, recursive) {
     tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -281,7 +281,7 @@ function updatePlaylistTree() {
     tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -374,7 +374,7 @@ function playSelectedSong(branch) {
     tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -417,7 +417,7 @@ function removeFromPlayList(selectIndex, record) {
     tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -459,7 +459,7 @@ function buttonClearPlayList() {
     tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -577,7 +577,7 @@ function getPlaylists(type) {
     tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,

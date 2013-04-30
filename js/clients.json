@@ -1,0 +1,20 @@
+﻿[
+    {
+        "id": 1,
+		"ipAddress": "",
+        "portAddress": "",
+        "name": "Default"
+    },
+    {
+        "id": 2,
+		"ipAddress": "localhost",
+        "portAddress": "8080",
+        "name": "Kitchen"
+    },
+    {
+        "id": 3,
+		"ipAddress": "localhost",
+        "portAddress": "8081",
+        "name": "Living Room"
+    }
+]

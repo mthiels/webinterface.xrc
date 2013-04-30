@@ -115,7 +115,7 @@ function InitializeWidgets() {
         tempStr = Ext.encode(obj);
 
         Ext.Ajax.request({
-            url: '/jsonrpc',
+            url: clientAddr + '/jsonrpc',
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             params: tempStr,
@@ -175,7 +175,7 @@ function InitializeWidgets() {
             tempStr = Ext.encode(obj);
 
             Ext.Ajax.request({
-                url: '/jsonrpc',
+                url: clientAddr + '/jsonrpc',
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 params: tempStr,
@@ -220,7 +220,7 @@ function InitializeWidgets() {
             tempStr = Ext.encode(obj);
 
             Ext.Ajax.request({
-                url: '/jsonrpc',
+                url: clientAddr + '/jsonrpc',
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 params: tempStr,
@@ -279,7 +279,7 @@ function xbmcCmds(command, callbackFunctionSuccess, callbackFunctionFailure) {
     tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -308,7 +308,7 @@ function buttonSetVolume(volumeLevel) {
     tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -337,7 +337,7 @@ function buttonSetMute(muteSetting) {
     tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -371,7 +371,7 @@ function getVolume() {
     tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -417,7 +417,7 @@ function setSongPosition(input) {
     tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,

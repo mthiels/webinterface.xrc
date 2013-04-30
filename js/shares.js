@@ -137,7 +137,7 @@ function getShares(type) {
 
     var tempStr = Ext.encode(obj);
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -223,7 +223,7 @@ function getDirectoryPaths(url) {
 
     var tempStr = Ext.encode(obj);
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
@@ -347,7 +347,7 @@ function getFileInfo(branch) {
 
     var tempStr = Ext.encode(obj);
     Ext.Ajax.request({
-        url: '/jsonrpc',
+        url: clientAddr + '/jsonrpc',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         params: tempStr,
