@@ -16,7 +16,6 @@ function xbmcComm(method, successComm, failureComm) {
         "id": 1
     };
 
-    var inputUrl = '/jsonrpc';
     var tempStr = Ext.encode(obj);
 
     Ext.Ajax.request({

@@ -45,7 +45,6 @@ function populateClientMenu() {
                 while (sharesVideoRoot.firstChild) {
                     sharesVideoRoot.removeChild(sharesVideoRoot.firstChild);
                 }
-                //sharesVideoRoot.removaAll(true);
 
                 storeSongs.removeAll();
                 storeAlbum.removeAll();
@@ -53,19 +52,15 @@ function populateClientMenu() {
                 storeSeason.removeAll();
                 storeEpisodes.removeAll();
                 storeVideoLibrary.removeAll();
+                videoLibrary = [];
 
-                //InitializeWidgets();
                 getShares("music");
                 getShares("video");
-                //currentlyPlayingTask.start();
                 updatePlaylistTree();
                 InitializeMusicLib();
                 InitializeMovieLib();
                 InitializeTVShowLib();
-                //getAddons();
                 getVolume();
-                //populateUserDefinedWindow();
-                //populateClientMenu();
             }
         })
     }

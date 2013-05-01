@@ -7,14 +7,14 @@
     },
     {
         "id": 2,
-		"ipAddress": "localhost",
+		"ipAddress": "10.160.145.58",
         "portAddress": "8080",
-        "name": "Kitchen"
+        "name": "Laptop"
     },
     {
         "id": 3,
-		"ipAddress": "localhost",
-        "portAddress": "8081",
-        "name": "Living Room"
+		"ipAddress": "137.69.74.246",
+        "portAddress": "8080",
+        "name": "Desktop"
     }
 ]
