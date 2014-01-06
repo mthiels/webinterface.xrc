@@ -142,6 +142,7 @@ function InitializeWidgets() {
             remoteControlWindow.show();
         }
     });
+/*
     navButtonUser = Ext.create('Ext.Button', {
         renderTo: 'buttonUser',
         icon: 'images/userDefined.png',
@@ -150,7 +151,7 @@ function InitializeWidgets() {
             userDefinedWindow.show();
         }
     });
-
+*/
     navButtonShuffle = Ext.create('Ext.Button', {
         renderTo: 'buttonShuffle',
         icon: 'images/navigator_shuffle.png',

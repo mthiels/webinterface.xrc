@@ -65,10 +65,12 @@ function populateClientMenu() {
         })
     }
 
+/*
     mediaLibraryStatusbar.add({
         id: 'clientButton',
         xtype: 'button',
         text: 'Client: Default',
         menu: menu,
     });
+*/
 }
