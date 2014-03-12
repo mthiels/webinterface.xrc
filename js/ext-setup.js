@@ -34,7 +34,7 @@ Ext.onReady(function() {
                     title: 'XBMControl Web v1.1.0',
                     height: 170,
                     contentEl: 'tester'
-                }, { 
+                },{ 
                     region: 'center',
                     margins: '0 0 0 0',
                     autoScroll: true,
@@ -276,6 +276,21 @@ Ext.onReady(function() {
     GetIntroRetroSpec();
 });
 
+var playStatusWindow;
+/*
+var playStatusWindow = Ext.create('Ext.Window', {
+    title: 'Right Header, plain: true',
+    width: '100%',
+    height: '100%',
+//    x: 450,
+//    y: 200,
+    headerPosition: 'right',
+    layout: 'fit',
+    items: {
+        border: false
+    }
+});
+*/
 
 var navButtonSearch = Ext.create('Ext.Button', {
     text: 'Search',

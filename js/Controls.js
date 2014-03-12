@@ -142,7 +142,19 @@ function InitializeWidgets() {
             remoteControlWindow.show();
         }
     });
+
 /*
+    navButtonStatusWindow = Ext.create('Ext.Button', {
+        renderTo: 'statusPlay',
+        icon: 'images/full_screen.png',
+        scale: 'large',
+        handler: function () {
+            statusPlayFunction();
+            playStatusWindow.show();
+        }
+    });
+*/
+    /*
     navButtonUser = Ext.create('Ext.Button', {
         renderTo: 'buttonUser',
         icon: 'images/userDefined.png',

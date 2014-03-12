@@ -57,7 +57,7 @@ function GetCurrentlyPlaying_1(t) {
     obj = {
         "jsonrpc": "2.0",
         "method": "Player.GetItem",
-        "params": { "playerid": currentPlayer, "properties": ["title", "artist", "genre", "album", "duration", "file", "thumbnail"] },
+        "params": { "playerid": currentPlayer, "properties": ["title", "artist", "artistid", "genre", "album", "duration", "file", "thumbnail"] },
         "id": 1
 
     }
@@ -141,12 +141,18 @@ function getCurrentlyPlayingSuccess(t) {
 
         if ((playlistCurrentIndex != playlistSavedIndex) && (playlistCurrentIndex != undefined)) {
             updatePlaylistTree();
+            statusPlayArtistId = responseArr.result.item.artistid;
+            updateStatusPlay();
             playlistSavedIndex = playlistCurrentIndex;
             playlistSavedType = currentPlaylist;
         }
     } else {
         myPlayingText.innerHTML = "Nothing Playing";
         myAlbumArt.src = "images/defaultAlbumCover.png"
+    }
+
+    if (imgEl != null) {
+//        imgEl.src = myAlbumArt.src;
     }
 
     connectStatus = 'Connected';
