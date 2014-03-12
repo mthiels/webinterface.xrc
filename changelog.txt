@@ -33,3 +33,6 @@
 
 1.1.0
     Adding music libary search capability.
+
+1.1.1 
+	Remove gui dependency from addon.xml
